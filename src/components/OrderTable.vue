@@ -25,47 +25,51 @@ export default {
          No: null, 
          Yes:null,
       products: [
-        { name: 'พริกเขียว', status: false ,total:0},
-        { name: 'ผักบุ้ง', status: false ,total:0},
-        { name: 'ถั่วงอก', status: false ,total:0},
-        { name: 'ต้นหอม', status: false ,total:0},
         { name: 'มาม่า', status: false ,total:0},
         { name: 'เส้นเล็ก', status: false ,total:0},
         { name: 'เส้นหมีขาว', status: false ,total:0},
         { name: 'เส้นใหญ่', status: false ,total:0},
         { name: 'วุ่นเส้น', status: false ,total:0},
         { name: 'เกียมอี๋', status: false ,total:0},
-        { name: 'กระเทียม', status: false ,total:0},
-        { name: 'น้ำตาล', status: false ,total:0},
-        { name: 'พริกไท', status: false ,total:0},
+        { name: 'เส้นบะหมี่', status: false ,total:0,status_total:true},
         { name: 'ลูกชิ้นปลา', status: false,total:0 ,status_total:true},
         { name: 'ลูกชิ้นกุ้ง', status: false ,total:0 ,status_total:true},
         { name: 'ลูกชิ้นแคระ', status: false ,total:0 ,status_total:true},
         { name: 'ปลาเส้น', status: false ,total:0 ,status_total:true},
-        { name: 'เส้นบะหมี่', status: false ,total:0,status_total:true},
         { name: 'กระดูกหมู', status: false ,total:0,status_total:true},
         { name: 'พริก น้ำตาลซอง', status: false ,total:0,status_total:true},
+        { name: 'พริกเขียว', status: false ,total:0},
+        { name: 'ผักบุ้ง', status: false ,total:0},
+        { name: 'ถั่วงอก', status: false ,total:0},
+        { name: 'ต้นหอม', status: false ,total:0},
+        { name: 'กระเทียม', status: false ,total:0},
+        { name: 'น้ำตาล', status: false ,total:0},
+        { name: 'พริกไท', status: false ,total:0},
         { name: 'ชาดำเย็น', status: false ,total:0,status_total:true},
         { name: 'โอเลี้ยง', status: false ,total:0,status_total:true},
         { name: 'กระเจี๊ยบ', status: false ,total:0,status_total:true},
+        { name: 'เก๊กฮวย', status: false ,total:0,status_total:true},
         { name: 'ฟ้าไทย', status: false ,total:0,status_total:true},
         { name: 'ชูรส', status: false ,total:0,status_total:true},
-        
+        { name: 'ซอสฝาเขียว', status: false ,total:0,status_total:false},
+        { name: 'น้ำส้มใส', status: false ,total:0,status_total:false},
+        { name: 'น้ำส้มโฟ', status: false ,total:0,status_total:false},
+        { name: 'ซอสโฟ', status: false ,total:0,status_total:false},
+        { name: 'น้ำส้มใส', status: false ,total:0,status_total:false},
+        { name: 'น้ำกระเทียมดอง', status: false ,total:0,status_total:false},
+        { name: 'น้ำส้มใส', status: false ,total:0,status_total:false},
+        { name: 'กระเทียมหัว', status: false ,total:0,status_total:false},
+        { name: 'พริกไทย', status: false ,total:0,status_total:false},
+        { name: 'ใบเตย', status: false ,total:0,status_total:false}
 
 
-
-
-
-
-        // { name: '', status: false }
-        
-
-        // ...
       ],
       isOrderValid: false
     }
   },
   methods: {
+     handleChange(value) {
+     },
     submitOrder() {
       this.$store.commit('addOrder', this.products)
       let notifications = localStorage.getItem('notifications');
@@ -81,19 +85,18 @@ export default {
     }
   },
    mounted() {
-    const orders = localStorage.getItem('orders');
-    
-    if (orders) {
-      const currentDate = new Date();
+    const orders = localStorage.getItem('orders');    
+    const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
-    this.products = JSON.parse(orders).filter(order => {
-      const orderDate = new Date(order.expiryDate);
-      console.log(orderDate)
-      return orderDate >= currentDate; // ใช้ currentDate แทน today
+    let orderList = JSON.parse(orders)
+    let mapOrder = orderList.filter(order=>{
+    const orderDate = new Date(order.expiryDate);
+      return orderDate >= currentDate;
     });
+    if(mapOrder.length > 0){
+      this.products = mapOrder 
     }else{
-        console.log('11')
-        
+      localStorage.removeItem("orders")
     }
 
   
