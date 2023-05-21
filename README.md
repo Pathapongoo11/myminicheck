@@ -1,4 +1,5 @@
 # myminicheck
+ทำ checklist รายการ
 
 ## Project setup
 ```
